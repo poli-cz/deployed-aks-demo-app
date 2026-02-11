@@ -15,6 +15,10 @@ def root():
 def healthz():
     return {"status": "ok"}
 
+@app.get("/info")
+def info():
+    return {"status": "This endpoint is the new endpoint"}
+
 @app.get("/readyz")
 def readyz():
     # In real apps you'd check DB/Redis connection here.
