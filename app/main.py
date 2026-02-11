@@ -11,7 +11,7 @@ START_TS = time.time()
 REQ_COUNT = 0
 
 MOODS = [
-    "🦦 chill",
+    " chill",
     "🐒 chaos monkey",
     "🦄 magical",
     "🐙 multi-armed (controller)",
