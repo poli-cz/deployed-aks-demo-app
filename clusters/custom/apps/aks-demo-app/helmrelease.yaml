@@ -17,4 +17,4 @@ spec:
   values:
     image:
       repository: lakmoosacr.azurecr.io/aks-demo-app
-      tag: "latest"
+      tag: "6d221f5"
