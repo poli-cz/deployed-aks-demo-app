@@ -22,7 +22,7 @@ jobs:
 
       - name: Set image tag (short SHA)
         id: vars
-        run: echo ${{ steps.vars.outputs.TAG }} >> $GITHUB_OUTPUT
+        run: echo "TAG=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to ACR
         uses: azure/docker-login@v2
@@ -31,10 +31,19 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Build & push
+      - name: Build & push (SHA tag + latest)
         run: |
-          docker build -t $ACR_LOGIN_SERVER/$IMAGE_NAME:${{ steps.vars.outputs.TAG }} .
-          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:${{ steps.vars.outputs.TAG }}
+          set -euo pipefail
+          TAG="${{ steps.vars.outputs.TAG }}"
+          echo "Using TAG=$TAG"
+
+          docker build \
+            -t "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${TAG}" \
+            -t "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:latest" \
+            .
+
+          docker push "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${TAG}"
+          docker push "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:latest"
 
       - name: Print tag
-        run: echo "Pushed $ACR_LOGIN_SERVER/$IMAGE_NAME:${{ steps.vars.outputs.TAG }}"
+        run: echo "Pushed ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${{ steps.vars.outputs.TAG }} and :latest"
