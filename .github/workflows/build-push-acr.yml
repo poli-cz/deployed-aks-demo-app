@@ -22,7 +22,7 @@ jobs:
 
       - name: Set image tag (short SHA)
         id: vars
-        run: echo "TAG=latest" >> $GITHUB_OUTPUT
+        run: echo ${{ steps.vars.outputs.TAG }} >> $GITHUB_OUTPUT
 
       - name: Log in to ACR
         uses: azure/docker-login@v2

@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: lakmoosacr.azurecr.io/aks-demo-app
-  tag: "1.0.0"
+  tag: "latest"
   pullPolicy: Always
 
 service:
